@@ -20,6 +20,7 @@ function App() {
     }
     async function fetchPlanets() {
       setLoading(true);
+      console.log("start");
       let res = await fetch(Globals.PLANETS_API);
       let data = await res.json();
 
@@ -38,16 +39,20 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        {/* {loading && <Spinner />} */}
+        {!loading && (
+          <>
+            <Route
+              path={"/"}
+              element={
+                <Home people={people?.length} planets={planets?.length} />
+              }
+            />
 
-        <Route
-          path={"/"}
-          element={<Home people={people?.length} planets={planets?.length} />}
-        />
+            <Route path={"/planets"} element={<Planets data={planets} />} />
 
-        <Route path={"/planets"} element={<Planets data={planets} />} />
-
-        <Route path={"/people"} element={<People data={people} />} />
+            <Route path={"/people"} element={<People data={people} />} />
+          </>
+        )}
       </Routes>
     </BrowserRouter>
   );
